@@ -2,9 +2,9 @@ const express = require('express');
 
 function createRouter(db) {
     const router = express.Router();
-    const user = '';
 
     router.post('/article', (req, res, next) => {
+        const user = req.user.email;
         db.query(
             'INSERT INTO articles (user, name, description, state, date) VALUES (?,?,?,?)', [user, req.body.name, req.body.description, req.body.state, new Date(req.body.date)],
             (error) => {
@@ -19,6 +19,7 @@ function createRouter(db) {
     });
 
     router.get('/article', function(req, res, next) {
+        const user = req.user.email;
         db.query(
             'SELECT id, name, description, state, date FROM articles WHERE user=? ORDER BY date LIMIT 10 OFFSET ?', [user, 10 * (req.params.page || 0)],
             (error, results) => {
@@ -33,6 +34,7 @@ function createRouter(db) {
     });
 
     router.put('article/:id', function(req, res, next) {
+        const user = req.user.email;
         db.query(
             'UPDATE articles SET name=?, description=?, state=?, date=? WHERE id=? AND user=?', [req.body.name, req.body.description, req.body.state, new Date(req.body.date), req.params.id, user],
             (error) => {
@@ -46,6 +48,7 @@ function createRouter(db) {
     });
 
     router.delete('/article/:id', function(req, res, next) {
+        const user = req.user.email;
         db.query(
             'DELETE FROM articles WHERE id=? AND user=?', [req.params.id, user],
             (error) => {
