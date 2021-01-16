@@ -6,7 +6,7 @@ function createRouter(db) {
 
     router.post('/article', (req, res, next) => {
         db.query(
-            'INSERT INTO articles (user, name, description, estate, date) VALUES (?,?,?,?)', [user, req.body.name, req.body.description, req.body.estate, new Date(req.body.date)],
+            'INSERT INTO articles (user, name, description, state, date) VALUES (?,?,?,?)', [user, req.body.name, req.body.description, req.body.state, new Date(req.body.date)],
             (error) => {
                 if (error) {
                     console.error(error);
@@ -17,6 +17,21 @@ function createRouter(db) {
             }
         );
     });
+
+    router.get('/article', function(req, res, next) {
+        db.query(
+            'SELECT id, name, description, state, date FROM events WHERE user=? ORDER BY date LIMIT 10 OFFSET ?', [user, 10 * (req.params.page || 0)],
+            (error, results) => {
+                if (error) {
+                    console.log(error);
+                    res.status(500).json({ status: 'error' });
+                } else {
+                    res.status(200).json(results);
+                }
+            }
+        );
+    });
+
 
     return router;
 }
