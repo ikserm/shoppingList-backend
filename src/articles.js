@@ -20,7 +20,7 @@ function createRouter(db) {
 
     router.get('/article', function(req, res, next) {
         db.query(
-            'SELECT id, name, description, state, date FROM events WHERE user=? ORDER BY date LIMIT 10 OFFSET ?', [user, 10 * (req.params.page || 0)],
+            'SELECT id, name, description, state, date FROM articles WHERE user=? ORDER BY date LIMIT 10 OFFSET ?', [user, 10 * (req.params.page || 0)],
             (error, results) => {
                 if (error) {
                     console.log(error);
