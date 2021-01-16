@@ -34,7 +34,20 @@ function createRouter(db) {
 
     router.put('article/:id', function(req, res, next) {
         db.query(
-            'UPDATE articles SET name=?, description=?, date=? WHERE id=? AND user=?', [req.body.name, req.body.description, req.body.state, new Date(req.body.date), req.params.id, user],
+            'UPDATE articles SET name=?, description=?, state=?, date=? WHERE id=? AND user=?', [req.body.name, req.body.description, req.body.state, new Date(req.body.date), req.params.id, user],
+            (error) => {
+                if (error) {
+                    res.status(500).json({ status: 'error' });
+                } else {
+                    res.status(200).json({ status: 'ok' });
+                }
+            }
+        );
+    });
+
+    router.delete('/article/:id', function(req, res, next) {
+        db.query(
+            'DELETE FROM articles WHERE id=? AND user=?', [req.params.id, user],
             (error) => {
                 if (error) {
                     res.status(500).json({ status: 'error' });
