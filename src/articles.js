@@ -6,7 +6,7 @@ function createRouter(db) {
     router.post('/article', (req, res, next) => {
         const user = req.user.email;
         db.query(
-            'INSERT INTO articles (user, name, description, state, date) VALUES (?,?,?,?)', [user, req.body.name, req.body.description, req.body.state, new Date(req.body.date)],
+            'INSERT INTO articles (user, name, description, state, date, quantity) VALUES (?,?,?,?,?,?)', [user, req.body.name, req.body.description, req.body.state, new Date(req.body.date), req.body.quantity],
             (error) => {
                 if (error) {
                     console.error(error);
@@ -21,7 +21,7 @@ function createRouter(db) {
     router.get('/article', function(req, res, next) {
         const user = req.user.email;
         db.query(
-            'SELECT id, name, description, state, date FROM articles WHERE user=? ORDER BY date LIMIT 10 OFFSET ?', [user, 10 * (req.params.page || 0)],
+            'SELECT id, name, description, state, date, quantity FROM articles WHERE user=? ORDER BY id DESC LIMIT 10 OFFSET ?', [user, 10 * (req.params.page || 0)],
             (error, results) => {
                 if (error) {
                     console.log(error);
@@ -33,10 +33,10 @@ function createRouter(db) {
         );
     });
 
-    router.put('article/:id', function(req, res, next) {
+    router.put('/article/:id', function(req, res, next) {
         const user = req.user.email;
         db.query(
-            'UPDATE articles SET name=?, description=?, state=?, date=? WHERE id=? AND user=?', [req.body.name, req.body.description, req.body.state, new Date(req.body.date), req.params.id, user],
+            'UPDATE articles SET name=?, description=?, state=?, date=?, quantity=? WHERE id=? AND user=?', [req.body.name, req.body.description, req.body.state, new Date(req.body.date, req.body.quantity), req.params.id, user],
             (error) => {
                 if (error) {
                     res.status(500).json({ status: 'error' });
