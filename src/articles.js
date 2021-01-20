@@ -36,7 +36,7 @@ function createRouter(db) {
     router.put('/article/:id', function(req, res, next) {
         const user = req.user.email;
         db.query(
-            'UPDATE articles SET name=?, description=?, state=?, date=?, quantity=? WHERE id=? AND user=?', [req.body.name, req.body.description, req.body.state, new Date(req.body.date, req.body.quantity), req.params.id, user],
+            'UPDATE articles SET name=?, description=?, state=?, date=?, quantity=? WHERE id=? AND user=?', [req.body.name, req.body.description, req.body.state, new Date(req.body.date), req.body.quantity, req.params.id, user],
             (error) => {
                 if (error) {
                     res.status(500).json({ status: 'error' });
