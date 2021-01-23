@@ -9,10 +9,10 @@ const oktaAuth = require('./src/auth');
 
 
 const connect = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'shoppinglist'
+    host: 'cis9cbtgerlk68wl.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
+    user: 'tajtuarubptehzz1',
+    password: 'ra191tac5xgs6a3r',
+    database: 'zthi7jhbh4fk4ckz'
 });
 
 connect.connect();
